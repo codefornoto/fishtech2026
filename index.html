@@ -1,1 +1,406 @@
 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="いしかわの海の幸をテーマに、金沢と豊洲で課題発見と課題解決に取り組むFISH×TECH HACKATHON 2026">
+  <meta name="theme-color" content="#e9e4d8">
+  <title>FISH×TECH HACKATHON 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%231b3443'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='serif' font-size='38' fill='white'%3E魚%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --paper: #e9e4d8;
+      --paper-light: #f8f5ed;
+      --ink: #18242b;
+      --indigo: #1b455b;
+      --red: #a43b34;
+      --gold: #b58a3b;
+      --green: #55705b;
+      --line: rgba(24, 36, 43, .26);
+      --serif: "Shippori Mincho", "Yu Mincho", serif;
+      --sans: "Noto Sans JP", sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image: url('./images/bk.svg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: var(--sans);
+      line-height: 1.8;
+      padding-bottom: 102px;
+    }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    [hidden] { display: none !important; }
+    ::selection { color: white; background: var(--red); }
+
+    .splash {
+      position: fixed; inset: 0; z-index: 500; display: grid; place-items: center;
+      background: var(--paper); transition: opacity .7s ease, visibility .7s ease;
+    }
+    .splash.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .splash-inner { width: min(760px, calc(100% - 40px)); text-align: center; }
+    .splash-title { margin: 0; font: 900 clamp(3.5rem, 13vw, 7.5rem)/.95 var(--sans); letter-spacing: -.06em; }
+    .splash-title span, .main-title span { color: var(--red); }
+    .splash-title small, .main-title small {
+      display: block; margin-top: .5em; font-size: .25em; line-height: 1; letter-spacing: .22em;
+    }
+    .splash-subtitle { margin: 1.4rem 0 2.6rem; font: 700 clamp(1rem, 3vw, 1.25rem)/1.8 var(--serif); letter-spacing: .14em; }
+    .start-button {
+      min-width: 220px; padding: .85rem 1.5rem; border: 2px solid var(--ink);
+      background: var(--paper-light); box-shadow: 5px 5px 0 var(--ink); cursor: pointer;
+      font-weight: 700; transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .start-button:hover, .start-button:focus-visible { transform: translate(2px,2px); box-shadow: 3px 3px 0 var(--ink); }
+
+    .fish-layer { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .fish {
+      position: absolute; left: var(--left); top: var(--top); width: var(--width);
+      opacity: var(--opacity,.22); filter: sepia(.15) saturate(.85) contrast(1.08);
+      mix-blend-mode: multiply; animation: drift var(--speed,12s) ease-in-out infinite alternate;
+    }
+    .fish:nth-child(even) { animation-direction: alternate-reverse; }
+    @keyframes drift { from { transform: translate(-15px,-5px) rotate(-2deg); } to { transform: translate(20px,10px) rotate(2deg); } }
+
+    .page { position: relative; z-index: 2; min-height: 100vh; }
+    .home { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 5rem 0 7rem; }
+    .main-header { text-align: center; margin-bottom: 4rem; }
+    .main-title { margin: 0; font: 900 clamp(4rem,13vw,8.5rem)/.9 var(--sans); letter-spacing: -.075em; text-shadow: 5px 5px 0 rgba(181,138,59,.35); }
+    .main-subtitle {
+      display: inline-block; margin: 2rem 0 0; padding: .7rem 1.6rem; border-block: 1px solid var(--ink);
+      font: 700 clamp(1rem,2.7vw,1.35rem)/1.7 var(--serif); letter-spacing: .12em;
+    }
+
+    .day-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 2rem; }
+    .day-card, .information-card {
+      position: relative; border: 3px solid var(--ink); background: rgba(248,245,237,.94);
+      box-shadow: 7px 7px 0 var(--ink); text-align: left;
+    }
+    .day-card { min-height: 330px; padding: 2.1rem; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+    .day-card:hover, .day-card:focus-visible, .information-card:hover, .information-card:focus-visible { transform: translate(3px,3px); box-shadow: 4px 4px 0 var(--ink); outline: none; }
+    .day-card::before, .information-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 8px; background: var(--accent); }
+    .day-card.day3 { grid-column: 1/-1; min-height: 270px; }
+    .day-number { display: block; margin-top: .6rem; color: var(--accent); font: 800 clamp(2.8rem,6vw,4.5rem)/1 var(--serif); }
+    .day-phase { margin: 1.2rem 0 .3rem; font-size: 1.3rem; font-weight: 900; }
+    .day-place { margin: 0; color: #4b565c; font-weight: 700; }
+    .day-summary { margin: 1.2rem 0 0; max-width: 42rem; }
+    .card-bottom { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-end; margin-top: 2rem; }
+    .date-label { display: inline-block; padding: .25rem .65rem; color: white; background: var(--ink); font-size: .85rem; font-weight: 700; }
+    .detail-label { border-bottom: 2px solid var(--accent); font-weight: 700; }
+    .information-card { grid-column: 1/-1; margin-top: .5rem; padding: 2rem; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+    .information-inner { display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
+    .information-card h2 { margin: .5rem 0; font: 800 clamp(1.5rem,4vw,2.2rem)/1.4 var(--serif); }
+    .information-card p { margin: 0; }
+    .information-card strong { white-space: nowrap; border-bottom: 2px solid var(--accent); }
+    .link-grid { grid-column: 1/-1; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.4rem; margin-top: .4rem; }
+    .link-card {
+      min-height: 150px; display: flex; flex-direction: column; justify-content: space-between;
+      padding: 1.35rem; border: 3px solid var(--ink); background: var(--card-color);
+      color: white; box-shadow: 5px 5px 0 var(--ink); text-decoration: none; text-align: left;
+      cursor: pointer; transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .link-card:hover, .link-card:focus-visible { transform: translate(2px,2px); box-shadow: 3px 3px 0 var(--ink); outline: none; }
+    .link-card h2 { margin: 0; font: 800 1.55rem/1.3 var(--serif); }
+    .link-card p { margin: 1rem 0 0; font-size: .86rem; font-weight: 700; }
+    .link-card strong { align-self: flex-end; border-bottom: 1px solid white; }
+
+    .day-page { width: min(960px, calc(100% - 32px)); margin: 0 auto; padding: 3rem 0 7rem; }
+    .back-button { margin-bottom: 2.5rem; padding: .7rem 1.1rem; border: 2px solid var(--ink); background: var(--paper-light); box-shadow: 4px 4px 0 var(--ink); cursor: pointer; font-weight: 700; }
+    .day-heading { position: relative; padding: 2.5rem; border: 3px solid var(--ink); background: rgba(248,245,237,.96); box-shadow: 8px 8px 0 var(--ink); text-align: center; }
+    .day-heading::before { content: ""; position: absolute; inset: 0 0 auto; height: 9px; background: var(--day-color); }
+    .day-heading-number { color: var(--day-color); font: 800 clamp(2rem,7vw,4rem)/1.2 var(--serif); }
+    .day-heading h1 { margin: .8rem 0 .5rem; font: 800 clamp(2rem,6vw,3.5rem)/1.3 var(--serif); }
+    .day-heading-meta { margin: 0; font-weight: 700; }
+    .day-heading-copy { max-width: 42rem; margin: 1.6rem auto 0; text-align: left; }
+    .section-heading { margin: 5rem 0 2.5rem; text-align: center; font: 800 clamp(1.8rem,4vw,2.7rem)/1.3 var(--serif); }
+    .section-heading span { display: inline-block; padding: .35rem 1.5rem; color: white; background: var(--ink); box-shadow: 5px 5px 0 var(--gold); }
+    .timetable { position: relative; }
+    .timetable::before { content: ""; position: absolute; top: 0; bottom: 0; left: 26px; width: 2px; background: var(--line); }
+    .program-item { position: relative; display: grid; grid-template-columns: 70px 1fr; gap: 2rem; margin-bottom: 1.5rem; }
+    .program-order { position: relative; z-index: 1; width: 52px; height: 52px; display: grid; place-items: center; border: 2px solid var(--ink); background: var(--day-color); color: white; font-weight: 900; box-shadow: 3px 3px 0 var(--ink); }
+    .program-content { padding: 1.35rem 1.5rem; border: 2px solid var(--ink); background: rgba(248,245,237,.96); box-shadow: 4px 4px 0 var(--ink); }
+    .program-content h3 { margin: 0 0 .4rem; font-size: 1.15rem; }
+    .program-content p { margin: 0; }
+    .points-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.3rem; }
+    .point-card { padding: 1.5rem; border: 2px solid var(--ink); background: rgba(248,245,237,.94); box-shadow: 4px 4px 0 var(--ink); }
+    .point-card h3 { margin: 0 0 .6rem; color: var(--day-color); font: 800 1.2rem/1.4 var(--serif); }
+    .point-card p { margin: 0; }
+    .day-note { margin-top: 2.5rem; padding: 1.25rem 1.5rem; border-left: 6px solid var(--day-color); background: rgba(248,245,237,.85); }
+
+    .modal { position: fixed; inset: 0; z-index: 450; display: grid; place-items: center; padding: 24px; background: rgba(24,36,43,.75); backdrop-filter: blur(5px); }
+    .modal-panel { width: min(760px,100%); max-height: min(86vh,820px); overflow-y: auto; padding: clamp(1.5rem,5vw,3rem); border: 3px solid var(--ink); background: var(--paper-light); box-shadow: 8px 8px 0 var(--gold); }
+    .modal-close { position: sticky; top: 0; float: right; width: 44px; height: 44px; border: 2px solid var(--ink); background: var(--paper-light); cursor: pointer; font-weight: 900; }
+    .modal-panel h2 { margin: 0 0 2rem; font: 800 clamp(1.8rem,5vw,2.8rem)/1.4 var(--serif); }
+    .modal-panel h3 { margin: 2.2rem 0 .7rem; font-size: 1.2rem; }
+    .modal-panel p { margin: 0 0 1rem; }
+    .example-list { margin: 1.2rem 0 0; padding: 1.2rem 1.2rem 1.2rem 2.3rem; background: rgba(27,69,91,.08); }
+
+    .procession-area { position: fixed; inset: auto 0 0; z-index: 300; height: 92px; overflow: hidden; border-top: 1px solid var(--line); background: rgba(233,228,216,.94); pointer-events: none; }
+    .place-labels { position: absolute; inset: 8px 16px auto; display: flex; justify-content: space-between; font: 700 .72rem/1 var(--serif); }
+    .route-label { position: absolute; left: 50%; top: 7px; transform: translateX(-50%); font-size: .7rem; font-weight: 700; white-space: nowrap; }
+    .road { position: absolute; left: 0; right: 0; bottom: 10px; height: 1px; background: repeating-linear-gradient(90deg,var(--ink) 0 8px,transparent 8px 14px); opacity: .35; }
+    .procession {
+      position: absolute; left: 0; bottom: 12px; width: 440px; height: 65px; max-width: none;
+      object-fit: contain; object-position: bottom; will-change: left, transform;
+      filter: saturate(.8) drop-shadow(0 3px 2px rgba(24,36,43,.12));
+    }
+
+    @media (max-width: 720px) {
+      body { padding-bottom: 84px; }
+      .home { padding-top: 3.5rem; }
+      .day-grid { grid-template-columns: 1fr; }
+      .day-card.day3, .information-card { grid-column: auto; }
+      .link-grid { grid-template-columns: 1fr; }
+      .day-card { min-height: 0; }
+      .information-inner { align-items: flex-start; flex-direction: column; }
+      .points-grid { grid-template-columns: 1fr; }
+      .program-item { grid-template-columns: 52px 1fr; gap: .9rem; }
+      .program-order { width: 42px; height: 42px; }
+      .day-heading { padding: 2rem 1.3rem; }
+      .procession-area { height: 76px; }
+      .procession { width: 330px; height: 50px; bottom: 10px; }
+      .route-label { top: 25px; font-size: .62rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .procession { left: 50% !important; transform: translateX(-50%) !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash" id="splash">
+    <div class="splash-inner">
+      <h1 class="splash-title">FISH<span>×</span>TECH<small>HACKATHON 2026</small></h1>
+      <p class="splash-subtitle">#いしかわの海の幸をアプデせよ</p>
+      <button class="start-button" id="startButton" type="button">画面を開く</button>
+    </div>
+  </div>
+
+  <div class="fish-layer" aria-hidden="true">
+    <img class="fish" src="./images/fish1.png" alt="" style="--left:3%;--top:8%;--width:210px;--opacity:.24;--speed:10s" onerror="this.remove()">
+    <img class="fish" src="./images/fish2.png" alt="" style="--left:72%;--top:4%;--width:260px;--opacity:.2;--speed:13s" onerror="this.remove()">
+    <img class="fish" src="./images/fish3.png" alt="" style="--left:58%;--top:30%;--width:165px;--opacity:.16;--speed:9s" onerror="this.remove()">
+    <img class="fish" src="./images/fish4.png" alt="" style="--left:5%;--top:45%;--width:230px;--opacity:.16;--speed:14s" onerror="this.remove()">
+    <img class="fish" src="./images/fish5.png" alt="" style="--left:79%;--top:52%;--width:180px;--opacity:.18;--speed:11s" onerror="this.remove()">
+    <img class="fish" src="./images/fish6.png" alt="" style="--left:24%;--top:70%;--width:220px;--opacity:.15;--speed:15s" onerror="this.remove()">
+    <img class="fish" src="./images/fish7.png" alt="" style="--left:67%;--top:77%;--width:210px;--opacity:.16;--speed:12s" onerror="this.remove()">
+    <img class="fish" src="./images/fish8.png" alt="" style="--left:10%;--top:87%;--width:145px;--opacity:.14;--speed:10s" onerror="this.remove()">
+    <img class="fish" src="./images/fish9.png" alt="" style="--left:43%;--top:13%;--width:140px;--opacity:.15;--speed:8s" onerror="this.remove()">
+  </div>
+
+  <main class="page" id="homeView">
+    <div class="home">
+      <header class="main-header">
+        <h1 class="main-title">FISH<span>×</span>TECH<small>HACKATHON 2026</small></h1>
+        <p class="main-subtitle">#いしかわの海の幸をアプデせよ</p>
+      </header>
+      <div class="day-grid">
+        <button class="day-card" type="button" data-day="day1" style="--accent:var(--red)">
+          <span class="day-number">Day 1</span><h2 class="day-phase">課題発見編</h2><p class="day-place">金沢会場</p>
+          <p class="day-summary">金沢の水産業や魚食文化について、現場で活動する人の話を聞きながら、地域が抱える課題を整理します。</p>
+          <div class="card-bottom"><span class="date-label">開催日：調整中</span><span class="detail-label">詳細を見る ＞</span></div>
+        </button>
+        <button class="day-card" type="button" data-day="day2" style="--accent:var(--indigo)">
+          <span class="day-number">Day 2</span><h2 class="day-phase">課題発見編</h2><p class="day-place">豊洲会場</p>
+          <p class="day-summary">豊洲市場や首都圏の流通・消費の視点から、金沢で見つけた課題を見直し、解決に取り組むテーマを決めます。</p>
+          <div class="card-bottom"><span class="date-label">開催日：調整中</span><span class="detail-label">詳細を見る ＞</span></div>
+        </button>
+        <button class="day-card day3" type="button" data-day="day3" style="--accent:var(--green)">
+          <span class="day-number">Day 3</span><h2 class="day-phase">課題解決編</h2><p class="day-place">豊洲会場</p>
+          <p class="day-summary">2日間で整理した課題をもとに、チームで解決案を考えます。Webアプリやデータ活用、生成AIなどを使い、実際に試せる形までつくります。</p>
+          <div class="card-bottom"><span class="date-label">開催日：調整中</span><span class="detail-label">詳細を見る ＞</span></div>
+        </button>
+        <button class="information-card" id="aboutButton" type="button" style="--accent:var(--gold)">
+          <div class="information-inner"><div><h2>FISH×TECH HACKATHON 2026とは？</h2><p>スクールの目的、3日間の進め方、参加対象について紹介します。</p></div><strong>詳しく見る</strong></div>
+        </button>
+        <div class="link-grid">
+          <button class="link-card" id="contactButton" type="button" style="--card-color:var(--green)">
+            <div><h2>お問い合わせ</h2><p>運営事務局へのご質問はこちら</p></div><strong>連絡先を見る</strong>
+          </button>
+          <a class="link-card" href="https://note.com/ishikawa_x_tech" target="_blank" rel="noopener noreferrer" style="--card-color:#67506d">
+            <div><h2>note</h2><p>関連する情報や開催レポートを発信します</p></div><strong>記事を見る ↗</strong>
+          </a>
+          <a class="link-card" href="https://kanazawa.ha4go.net/" target="_blank" rel="noopener noreferrer" style="--card-color:var(--indigo)">
+            <div><h2>掲示板</h2><p>参加者同士の情報共有はこちら</p></div><strong>掲示板を開く ↗</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <main class="page" id="dayView" hidden>
+    <div class="day-page">
+      <button class="back-button" id="backButton" type="button">＜ 表紙へ戻る</button>
+      <section class="day-heading" id="dayHeading">
+        <div class="day-heading-number" id="dayNumber"></div><h1 id="dayTitle"></h1><p class="day-heading-meta" id="dayMeta"></p><p class="day-heading-copy" id="dayCopy"></p>
+      </section>
+      <section><h2 class="section-heading"><span>当日の流れ</span></h2><div class="timetable" id="timetable"></div></section>
+      <section><h2 class="section-heading"><span>この日に行うこと</span></h2><div class="points-grid" id="pointsGrid"></div><p class="day-note">開催時間、詳しい会場、登壇者、参加方法などは、決まり次第このページに追加します。</p></section>
+    </div>
+  </main>
+
+  <div class="modal" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" hidden>
+    <div class="modal-panel">
+      <button class="modal-close" id="modalClose" type="button" aria-label="閉じる">×</button>
+      <h2 id="aboutTitle">FISH×TECH HACKATHON 2026について</h2>
+      <p>FISH×TECH HACKATHON 2026は、水産業や魚食文化をテーマに、金沢と豊洲の2地域で現場を知り、課題を整理し、解決案を形にするスクールです。</p>
+      <p>漁業、水産加工、流通、市場、飲食、観光など、魚を取り巻く仕事にはさまざまな人が関わっています。一方で、担い手不足、情報共有、販路、未利用魚の活用、魚食文化の継承など、地域や立場によって異なる課題があります。</p>
+      <p>3日間のプログラムでは、まず金沢と豊洲の両方から現場を見ます。そこで見つけた課題をチームで整理し、最終日に解決案を試作品として発表します。</p>
+      <h3>例えば、こんなテーマ</h3>
+      <ul class="example-list"><li>漁獲や入荷の情報を、分かりやすく共有する仕組み</li><li>未利用魚や地域の魚を知ってもらうための発信</li><li>飲食店や消費者と産地をつなぐWebサービス</li><li>魚食文化や調理方法を次の世代へ伝える仕組み</li><li>観光と市場、地域の飲食店をつなぐデジタルマップ</li></ul>
+      <h3>参加対象</h3>
+      <p>水産業や地域の課題に関心がある人であれば、技術経験の有無を問わず参加できます。エンジニア、デザイナー、学生、地域事業者など、それぞれの得意分野を持ち寄りながら進めます。</p>
+    </div>
+  </div>
+
+  <div class="modal" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactTitle" hidden>
+    <div class="modal-panel">
+      <button class="modal-close" id="contactClose" type="button" aria-label="閉じる">×</button>
+      <h2 id="contactTitle">お問い合わせ</h2>
+      <p><strong>石川県デジタル推進監室</strong></p>
+      <p>メール：<a href="mailto:e120300@pref.ishikawa.lg.jp">e120300@pref.ishikawa.lg.jp</a></p>
+      <p>電話：<a href="tel:0762251243">076-225-1243</a></p>
+    </div>
+  </div>
+
+  <div class="procession-area" aria-hidden="true">
+    <div class="place-labels"><span>金沢</span><span>豊洲</span></div><div class="route-label" id="routeLabel">金沢から豊洲へ</div><div class="road"></div>
+    <img class="procession" id="procession" src="./images/daimyo-procession.png" alt="">
+  </div>
+
+  <script>
+    const dayData = {
+      day1: {
+        number:'Day 1', title:'課題発見編', meta:'金沢会場｜開催日・時間は調整中', color:'var(--red)', direction:'kanazawa',
+        copy:'金沢の水産業や魚食文化について、現場で活動する人の話を聞きながら課題を探します。最初から解決策を決めるのではなく、誰が、どの場面で、何に困っているのかを具体的に整理します。',
+        programs:[
+          ['開会・オリエンテーション','スクール全体の目的と3日間の進め方を共有します。'],
+          ['金沢の水産業を知る','漁業、加工、流通、飲食など、魚が届くまでの流れと地域の特徴を学びます。'],
+          ['現場からの課題共有','地域で活動する人から、日々感じている困りごとや変化について話を聞きます。'],
+          ['グループで意見交換','気になった話や疑問を持ち寄り、さらに確認したい点を整理します。'],
+          ['課題を言葉にする','誰の、どのような課題なのかを整理し、次の豊洲会場へ持っていく問いをつくります。'],
+          ['発表・共有','各グループが見つけた課題を発表し、参加者全体で共有します。']
+        ],
+        points:[
+          ['現場の話を聞く','資料だけでは分からない、仕事の流れや日々の困りごとを直接聞きます。'],
+          ['課題を絞り過ぎない','最初の段階では複数の可能性を残し、豊洲の視点と比べられるようにします。'],
+          ['背景まで整理する','表面の困りごとだけでなく、なぜ起きているのかまで考えます。'],
+          ['豊洲へ持っていく','Day 2で確認したいことを決め、金沢で見つけた課題を豊洲へつなぎます。']
+        ]
+      },
+      day2: {
+        number:'Day 2', title:'課題発見編', meta:'豊洲会場｜開催日・時間は調整中', color:'var(--indigo)', direction:'toyosu',
+        copy:'金沢で見つけた課題を、豊洲市場や首都圏の流通・消費の視点から見直します。産地と市場の違いを比べながら、本当に取り組むべき課題を決めます。',
+        programs:[
+          ['開会・前回の振り返り','Day 1で出た課題と、豊洲で確認したいポイントを共有します。'],
+          ['豊洲市場について知る','市場の役割や流通の仕組み、産地から消費地までの動きを学びます。'],
+          ['流通・販売側の話を聞く','魚を仕入れ、届け、販売する立場から見た課題やニーズを聞きます。'],
+          ['金沢との違いを整理','産地と市場、それぞれの情報や認識の違いをグループで整理します。'],
+          ['取り組む課題を決める','解決する相手と場面を具体化し、チームで取り組むテーマを決定します。'],
+          ['Day 3に向けた準備','必要なデータ、情報、役割分担を整理し、試作品づくりの準備を進めます。']
+        ],
+        points:[
+          ['産地と市場を比べる','同じ魚でも、金沢と豊洲では見え方や評価がどのように違うかを確認します。'],
+          ['情報の流れを見る','魚だけでなく、産地情報、価格、品質、食べ方などがどう伝わるかを見ます。'],
+          ['利用者を具体化する','漁業者、仲卸、飲食店、消費者など、誰のための解決策かを決めます。'],
+          ['つくる前に確かめる','思い込みで進めず、現場の声と照らし合わせて課題を絞ります。']
+        ]
+      },
+      day3: {
+        number:'Day 3', title:'課題解決編', meta:'豊洲会場｜開催日・時間は調整中', color:'var(--green)', direction:'toyosu',
+        copy:'金沢と豊洲で整理した課題をもとに、解決案を実際に試せる形までつくります。完成度を競うだけでなく、現場で使えるか、次につながるかを重視します。',
+        programs:[
+          ['課題とチームの確認','取り組む課題、対象となる人、目指す状態をあらためて確認します。'],
+          ['解決案の検討','必要な機能や情報を整理し、その日に形にする範囲を決めます。'],
+          ['試作品づくり','Webアプリ、データ可視化、生成AIなど、課題に合った方法で制作します。'],
+          ['中間確認','途中の成果を見せ合い、分かりにくい点や不足している点を修正します。'],
+          ['成果発表','課題の背景、解決案、試作品、今後の進め方をチームごとに発表します。'],
+          ['講評・今後について','現場の関係者から意見をもらい、スクール後に続ける内容を整理します。']
+        ],
+        points:[
+          ['小さくつくる','すべてを完成させるのではなく、課題の解決に必要な部分を優先します。'],
+          ['実際に触れる形にする','説明資料だけでなく、画面や動作を確認できる試作品を目指します。'],
+          ['現場の意見をもらう','つくった人だけで判断せず、使う人や関係者の意見を確認します。'],
+          ['次の一歩を決める','スクール後に誰が何を進めるか、実証や改善につながる形で終えます。']
+        ]
+      }
+    };
+
+    const splash=document.getElementById('splash');
+    const homeView=document.getElementById('homeView');
+    const dayView=document.getElementById('dayView');
+    const aboutModal=document.getElementById('aboutModal');
+    const contactModal=document.getElementById('contactModal');
+    const procession=document.getElementById('procession');
+    const routeLabel=document.getElementById('routeLabel');
+    let routeDirection='toyosu';
+    let scrollFrame=null;
+
+    function closeSplash(){ splash.classList.add('is-hidden'); setTimeout(()=>{splash.hidden=true;},750); }
+    function updateProcession(){
+      const maxScroll=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+      const progress=Math.min(1,Math.max(0,window.scrollY/maxScroll));
+      const imageWidth=procession.getBoundingClientRect().width;
+      const available=Math.max(0,window.innerWidth-imageWidth);
+      const toKanazawa=routeDirection==='kanazawa';
+      const position=toKanazawa?1-progress:progress;
+      procession.style.left=`${position*available}px`;
+      procession.style.transform=toKanazawa?'scaleX(-1)':'scaleX(1)';
+      scrollFrame=null;
+    }
+    function requestProcessionUpdate(){
+      if(scrollFrame!==null)return;
+      scrollFrame=requestAnimationFrame(updateProcession);
+    }
+    function setRoute(direction){
+      routeDirection=direction;
+      routeLabel.textContent=direction==='kanazawa'?'豊洲から金沢へ':'金沢から豊洲へ';
+      requestProcessionUpdate();
+    }
+    function openDay(key,updateHash=true){
+      const data=dayData[key]; if(!data)return;
+      document.getElementById('dayHeading').style.setProperty('--day-color',data.color);
+      document.querySelector('.day-page').style.setProperty('--day-color',data.color);
+      document.getElementById('dayNumber').textContent=data.number;
+      document.getElementById('dayTitle').textContent=data.title;
+      document.getElementById('dayMeta').textContent=data.meta;
+      document.getElementById('dayCopy').textContent=data.copy;
+      document.getElementById('timetable').innerHTML=data.programs.map((item,index)=>`<article class="program-item"><div class="program-order">${index+1}</div><div class="program-content"><h3>${item[0]}</h3><p>${item[1]}</p></div></article>`).join('');
+      document.getElementById('pointsGrid').innerHTML=data.points.map(item=>`<article class="point-card"><h3>${item[0]}</h3><p>${item[1]}</p></article>`).join('');
+      homeView.hidden=true; dayView.hidden=false; setRoute(data.direction);
+      if(updateHash)history.pushState({day:key},'',`#${key}`); window.scrollTo(0,0); requestAnimationFrame(updateProcession);
+    }
+    function showHome(updateHash=true){ dayView.hidden=true; homeView.hidden=false; setRoute('toyosu'); if(updateHash)history.pushState({},'','#home'); window.scrollTo(0,0); requestAnimationFrame(updateProcession); }
+    function openAbout(){ aboutModal.hidden=false; document.body.style.overflow='hidden'; document.getElementById('modalClose').focus(); }
+    function closeAbout(){ aboutModal.hidden=true; document.body.style.overflow=''; document.getElementById('aboutButton').focus(); }
+    function openContact(){ contactModal.hidden=false; document.body.style.overflow='hidden'; document.getElementById('contactClose').focus(); }
+    function closeContact(){ contactModal.hidden=true; document.body.style.overflow=''; document.getElementById('contactButton').focus(); }
+
+    document.getElementById('startButton').addEventListener('click',closeSplash);
+    document.querySelectorAll('[data-day]').forEach(card=>card.addEventListener('click',()=>openDay(card.dataset.day)));
+    document.getElementById('backButton').addEventListener('click',()=>showHome());
+    document.getElementById('aboutButton').addEventListener('click',openAbout);
+    document.getElementById('modalClose').addEventListener('click',closeAbout);
+    document.getElementById('contactButton').addEventListener('click',openContact);
+    document.getElementById('contactClose').addEventListener('click',closeContact);
+    aboutModal.addEventListener('click',event=>{if(event.target===aboutModal)closeAbout();});
+    contactModal.addEventListener('click',event=>{if(event.target===contactModal)closeContact();});
+    window.addEventListener('scroll',requestProcessionUpdate,{passive:true});
+    window.addEventListener('resize',requestProcessionUpdate);
+    document.addEventListener('keydown',event=>{ if(event.key!=='Escape')return; if(!contactModal.hidden)closeContact(); else if(!aboutModal.hidden)closeAbout(); else if(!splash.hidden)closeSplash(); else if(!dayView.hidden)showHome(); });
+    window.addEventListener('popstate',()=>{ const key=location.hash.slice(1); if(dayData[key])openDay(key,false); else showHome(false); });
+    const initialDay=location.hash.slice(1); if(dayData[initialDay]){ closeSplash(); openDay(initialDay,false); } else { updateProcession(); }
+  </script>
+</body>
+</html>
