@@ -45,13 +45,13 @@
     ::selection { color: white; background: var(--red); }
 
     .splash {
-      position: fixed; inset: 0; z-index: 500; display: grid; place-items: center;
+      position: fixed; inset: 0; z-index: 500; display: grid; place-items: center; overflow: hidden;
       background-color: var(--paper); background-image: url('./images/bk.svg');
       background-size: cover; background-position: center; background-attachment: fixed;
       transition: opacity .7s ease, visibility .7s ease;
     }
     .splash.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-    .splash-inner { width: min(760px, calc(100% - 40px)); text-align: center; }
+    .splash-inner { position: relative; z-index: 3; width: min(760px, calc(100% - 40px)); text-align: center; }
     .splash-title { margin: 0; font: 900 clamp(3.5rem, 13vw, 7.5rem)/.95 var(--sans); letter-spacing: -.06em; }
     .splash-title span, .main-title span { color: var(--red); }
     .splash-title small, .main-title small {
@@ -65,14 +65,44 @@
     }
     .start-button:hover, .start-button:focus-visible { transform: translate(2px,2px); box-shadow: 3px 3px 0 var(--ink); }
 
+    .peek-fish {
+      position: absolute; z-index: 2; width: var(--size); aspect-ratio: 1; padding: 0;
+      border: 0; background: transparent; cursor: pointer; transition: transform .42s cubic-bezier(.2,.85,.25,1.15);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .peek-fish img {
+      width: 100%; height: 100%; object-fit: contain; pointer-events: none;
+      filter: saturate(.88) contrast(1.04) drop-shadow(0 3px 2px rgba(24,36,43,.08));
+      transform: rotate(var(--rotate,0deg)) scaleX(var(--flip,1));
+    }
+    .peek-fish:focus-visible { outline: 3px solid var(--red); outline-offset: -3px; }
+    .peek-fish.is-peeking { transform: translate(var(--peek-x,0),var(--peek-y,0)); }
+    .peek-left { left: var(--edge); top: var(--along); --peek-x: 42px; }
+    .peek-right { right: var(--edge); top: var(--along); --flip: -1; --peek-x: -42px; }
+    .peek-top { top: var(--edge); left: var(--along); --rotate: 90deg; --peek-y: 42px; }
+    .peek-bottom { bottom: var(--edge); left: var(--along); --rotate: -90deg; --peek-y: -42px; }
+    .fish-callout {
+      position: absolute; z-index: 4; padding: .65rem 1rem; border: 2px solid var(--ink);
+      border-radius: 50%; background: var(--paper-light); box-shadow: 3px 3px 0 var(--ink);
+      cursor: pointer; font: 700 clamp(.72rem,1.2vw,.92rem)/1.4 var(--serif); white-space: nowrap;
+      transition: transform .2s ease;
+    }
+    .fish-callout:hover, .fish-callout:focus-visible { transform: translateY(-3px); }
+    .fish-callout:not([hidden]) { animation: bubble-pop .24s ease-out; }
+    @keyframes bubble-pop { from { opacity: 0; transform: scale(.82); } to { opacity: 1; transform: scale(1); } }
+    .callout-left { left: clamp(95px,14vw,210px); top: 42%; }
+    .callout-right { right: clamp(95px,14vw,210px); top: 48%; }
+
     .fish-layer { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
     .fish {
-      position: absolute; left: var(--left); top: var(--top); width: var(--width);
+      position: absolute; left: -30vw; top: var(--top); width: var(--width);
       opacity: var(--opacity,.22); filter: sepia(.15) saturate(.85) contrast(1.08);
-      mix-blend-mode: multiply; animation: drift var(--speed,12s) ease-in-out infinite alternate;
+      mix-blend-mode: multiply; animation: swim-right var(--speed,24s) linear infinite; animation-delay: var(--delay,0s);
+      will-change: left;
     }
-    .fish:nth-child(even) { animation-direction: alternate-reverse; }
-    @keyframes drift { from { transform: translate(-15px,-5px) rotate(-2deg); } to { transform: translate(20px,10px) rotate(2deg); } }
+    .fish.reverse { left: 110vw; transform: scaleX(-1); animation-name: swim-left; }
+    @keyframes swim-right { from { left: -30vw; } to { left: 110vw; } }
+    @keyframes swim-left { from { left: 110vw; } to { left: -30vw; } }
 
     .page { position: relative; z-index: 2; min-height: 100vh; }
     .home { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 5rem 0 7rem; }
@@ -139,13 +169,28 @@
     .point-card p { margin: 0; }
     .day-note { margin-top: 2.5rem; padding: 1.25rem 1.5rem; border-left: 6px solid var(--day-color); background: rgba(248,245,237,.85); }
 
-    .modal { position: fixed; inset: 0; z-index: 450; display: grid; place-items: center; padding: 24px; background: rgba(24,36,43,.75); backdrop-filter: blur(5px); }
+    .modal { position: fixed; inset: 0; z-index: 650; display: grid; place-items: center; padding: 24px; background: rgba(24,36,43,.75); backdrop-filter: blur(5px); }
     .modal-panel { width: min(760px,100%); max-height: min(86vh,820px); overflow-y: auto; padding: clamp(1.5rem,5vw,3rem); border: 3px solid var(--ink); background: var(--paper-light); box-shadow: 8px 8px 0 var(--gold); }
     .modal-close { position: sticky; top: 0; float: right; width: 44px; height: 44px; border: 2px solid var(--ink); background: var(--paper-light); cursor: pointer; font-weight: 900; }
     .modal-panel h2 { margin: 0 0 2rem; font: 800 clamp(1.8rem,5vw,2.8rem)/1.4 var(--serif); }
     .modal-panel h3 { margin: 2.2rem 0 .7rem; font-size: 1.2rem; }
     .modal-panel p { margin: 0 0 1rem; }
     .example-list { margin: 1.2rem 0 0; padding: 1.2rem 1.2rem 1.2rem 2.3rem; background: rgba(27,69,91,.08); }
+    .quiz-progress { margin: 0 0 .75rem; color: var(--red); font-weight: 900; }
+    .quiz-question { margin: 0 0 1.4rem; font: 800 clamp(1.25rem,3vw,1.7rem)/1.55 var(--serif); }
+    .quiz-options { display: grid; gap: .8rem; }
+    .quiz-option {
+      width: 100%; padding: .9rem 1rem; border: 2px solid var(--ink); background: white;
+      text-align: left; cursor: pointer; font-weight: 700; transition: background .18s ease, transform .18s ease;
+    }
+    .quiz-option:hover, .quiz-option:focus-visible { transform: translateX(4px); background: rgba(181,138,59,.13); }
+    .quiz-option.correct { color: white; background: var(--green); }
+    .quiz-option.wrong { color: white; background: var(--red); }
+    .quiz-option:disabled { cursor: default; transform: none; }
+    .quiz-feedback { min-height: 3.3rem; margin: 1.2rem 0 0; padding: .85rem 1rem; background: rgba(27,69,91,.08); }
+    .quiz-next { margin-top: 1rem; padding: .65rem 1.1rem; border: 2px solid var(--ink); background: var(--paper-light); box-shadow: 3px 3px 0 var(--ink); cursor: pointer; font-weight: 800; }
+    .quiz-result { text-align: center; }
+    .quiz-score { display: block; margin: 1rem 0; color: var(--red); font: 900 clamp(3rem,10vw,5.5rem)/1 var(--serif); }
 
     .procession-area { position: fixed; inset: auto 0 0; z-index: 300; height: 92px; overflow: hidden; border-top: 1px solid var(--line); background: rgba(233,228,216,.94); pointer-events: none; }
     .place-labels { position: absolute; inset: 8px 16px auto; display: flex; justify-content: space-between; font: 700 .72rem/1 var(--serif); }
@@ -166,6 +211,16 @@
 
     @media (max-width: 720px) {
       body { padding-bottom: 84px; }
+      .splash-title { font-size: clamp(2.8rem,16vw,4.6rem); }
+      .splash-subtitle { margin: 1.2rem 0 2rem; font-size: .88rem; }
+      .peek-fish { --size: 170px !important; }
+      .peek-left { --edge: -122px !important; }
+      .peek-right { --edge: -122px !important; }
+      .peek-top { --edge: -123px !important; }
+      .peek-bottom { --edge: -123px !important; }
+      .callout-left { left: 44px; top: 34%; }
+      .callout-right { right: 42px; top: 60%; }
+      .fish-callout { padding: .5rem .7rem; font-size: .68rem; }
       .home { padding-top: 3.5rem; }
       .day-grid { grid-template-columns: 1fr; }
       .day-card.day3, .information-card { grid-column: auto; }
@@ -184,6 +239,7 @@
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .fish { display: none; }
       .train, .procession { left: 50% !important; transform: translateX(-50%) !important; }
     }
   </style>
@@ -195,17 +251,29 @@
       <p class="splash-subtitle">#いしかわの海の幸をアプデせよ</p>
       <button class="start-button" id="startButton" type="button">画面を開く</button>
     </div>
+    <button class="peek-fish peek-left" type="button" aria-label="メバルをのぞかせる" style="--size:250px;--edge:-178px;--along:3%"><img src="./images/fish1.png" alt=""></button>
+    <button class="peek-fish peek-top" type="button" aria-label="鰆をのぞかせる" style="--size:270px;--edge:-194px;--along:16%"><img src="./images/fish2.png" alt=""></button>
+    <button class="peek-fish peek-left" id="hackathonFish" type="button" data-splash-action="about" aria-label="ハッカソンの吹き出しを表示" style="--size:300px;--edge:-220px;--along:36%"><img src="./images/fish3.png" alt=""></button>
+    <button class="peek-fish peek-top" type="button" aria-label="イカをのぞかせる" style="--size:250px;--edge:-176px;--along:43%"><img src="./images/fish4.png" alt=""></button>
+    <button class="peek-fish peek-right" type="button" aria-label="アジをのぞかせる" style="--size:260px;--edge:-187px;--along:72%"><img src="./images/fish5.png" alt=""></button>
+    <button class="peek-fish peek-right" id="quizFish" type="button" data-splash-action="quiz" aria-label="お魚クイズの吹き出しを表示" style="--size:300px;--edge:-218px;--along:38%"><img src="./images/fish6.png" alt=""></button>
+    <button class="peek-fish peek-right" type="button" aria-label="香箱ガニをのぞかせる" style="--size:280px;--edge:-198px;--along:3%"><img src="./images/fish7.png" alt=""></button>
+    <button class="peek-fish peek-bottom" type="button" aria-label="ブリをのぞかせる" style="--size:280px;--edge:-202px;--along:43%"><img src="./images/fish8.png" alt=""></button>
+    <button class="peek-fish peek-left" type="button" aria-label="ノドグロをのぞかせる" style="--size:260px;--edge:-185px;--along:73%"><img src="./images/fish9.png" alt=""></button>
+    <button class="fish-callout callout-left" id="hackathonCallout" type="button" hidden>HACKATHONってなに？</button>
+    <button class="fish-callout callout-right" id="quizCallout" type="button" hidden>お魚クイズに挑戦する？</button>
   </div>
 
   <div class="fish-layer" aria-hidden="true">
-    <img class="fish" src="./images/fish1.png" alt="" style="--left:3%;--top:8%;--width:210px;--opacity:.24;--speed:10s" onerror="this.remove()">
-    <img class="fish" src="./images/fish2.png" alt="" style="--left:72%;--top:4%;--width:260px;--opacity:.2;--speed:13s" onerror="this.remove()">
-    <img class="fish" src="./images/fish3.png" alt="" style="--left:58%;--top:30%;--width:165px;--opacity:.16;--speed:9s" onerror="this.remove()">
-    <img class="fish" src="./images/fish4.png" alt="" style="--left:5%;--top:45%;--width:230px;--opacity:.16;--speed:14s" onerror="this.remove()">
-    <img class="fish" src="./images/fish5.png" alt="" style="--left:79%;--top:52%;--width:180px;--opacity:.18;--speed:11s" onerror="this.remove()">
-    <img class="fish" src="./images/fish6.png" alt="" style="--left:24%;--top:70%;--width:220px;--opacity:.15;--speed:15s" onerror="this.remove()">
-    <img class="fish" src="./images/fish7.png" alt="" style="--left:67%;--top:77%;--width:210px;--opacity:.16;--speed:12s" onerror="this.remove()">
-    <img class="fish" src="./images/fish8.png" alt="" style="--left:10%;--top:87%;--width:145px;--opacity:.14;--speed:10s" onerror="this.remove()">
+    <img class="fish" src="./images/fish1.png" alt="" style="--top:7%;--width:210px;--opacity:.20;--speed:29s;--delay:-8s" onerror="this.remove()">
+    <img class="fish reverse" src="./images/fish2.png" alt="" style="--top:16%;--width:260px;--opacity:.16;--speed:37s;--delay:-25s" onerror="this.remove()">
+    <img class="fish" src="./images/fish3.png" alt="" style="--top:27%;--width:175px;--opacity:.15;--speed:24s;--delay:-17s" onerror="this.remove()">
+    <img class="fish reverse" src="./images/fish4.png" alt="" style="--top:38%;--width:230px;--opacity:.14;--speed:34s;--delay:-9s" onerror="this.remove()">
+    <img class="fish" src="./images/fish5.png" alt="" style="--top:50%;--width:185px;--opacity:.17;--speed:27s;--delay:-22s" onerror="this.remove()">
+    <img class="fish reverse" src="./images/fish6.png" alt="" style="--top:60%;--width:210px;--opacity:.14;--speed:41s;--delay:-31s" onerror="this.remove()">
+    <img class="fish" src="./images/fish7.png" alt="" style="--top:69%;--width:200px;--opacity:.15;--speed:33s;--delay:-14s" onerror="this.remove()">
+    <img class="fish reverse" src="./images/fish8.png" alt="" style="--top:78%;--width:245px;--opacity:.14;--speed:31s;--delay:-6s" onerror="this.remove()">
+    <img class="fish" src="./images/fish9.png" alt="" style="--top:88%;--width:190px;--opacity:.16;--speed:36s;--delay:-28s" onerror="this.remove()">
   </div>
 
   <main class="page" id="homeView">
@@ -262,7 +330,8 @@
   <div class="modal" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" hidden>
     <div class="modal-panel">
       <button class="modal-close" id="modalClose" type="button" aria-label="閉じる">×</button>
-      <h2 id="aboutTitle">FISH×TECH HACKATHON 2026について</h2>
+      <h2 id="aboutTitle">HACKATHONってなに？</h2>
+      <p><strong>ハッカソン</strong>は、参加者がチームをつくり、決められたテーマについてアイデアを出し合い、短い期間で試作品や解決案を形にするイベントです。「ハック（工夫してつくる）」と「マラソン」を組み合わせた言葉です。</p>
       <p>FISH×TECH HACKATHON 2026は、水産業や魚食文化をテーマに、金沢と豊洲の2地域で現場を知り、課題を整理し、解決案を形にするスクールです。</p>
       <p>漁業、水産加工、流通、市場、飲食、観光など、魚を取り巻く仕事にはさまざまな人が関わっています。一方で、担い手不足、情報共有、販路、未利用魚の活用、魚食文化の継承など、地域や立場によって異なる課題があります。</p>
       <p>3日間のプログラムでは、まず金沢と豊洲の両方から現場を見ます。そこで見つけた課題をチームで整理し、最終日に解決案を試作品として発表します。</p>
@@ -270,6 +339,20 @@
       <ul class="example-list"><li>漁獲や入荷の情報を、分かりやすく共有する仕組み</li><li>未利用魚や地域の魚を知ってもらうための発信</li><li>飲食店や消費者と産地をつなぐWebサービス</li><li>魚食文化や調理方法を次の世代へ伝える仕組み</li><li>観光と市場、地域の飲食店をつなぐデジタルマップ</li></ul>
       <h3>参加対象</h3>
       <p>水産業や地域の課題に関心がある人であれば、技術経験の有無を問わず参加できます。エンジニア、デザイナー、学生、地域事業者など、それぞれの得意分野を持ち寄りながら進めます。</p>
+    </div>
+  </div>
+
+  <div class="modal" id="quizModal" role="dialog" aria-modal="true" aria-labelledby="quizTitle" hidden>
+    <div class="modal-panel">
+      <button class="modal-close" id="quizClose" type="button" aria-label="閉じる">×</button>
+      <h2 id="quizTitle">お魚クイズ</h2>
+      <div id="quizBody">
+        <p class="quiz-progress" id="quizProgress"></p>
+        <p class="quiz-question" id="quizQuestion"></p>
+        <div class="quiz-options" id="quizOptions"></div>
+        <p class="quiz-feedback" id="quizFeedback" aria-live="polite"></p>
+        <button class="quiz-next" id="quizNext" type="button" hidden>次の問題へ</button>
+      </div>
     </div>
   </div>
 
@@ -347,16 +430,29 @@
       }
     };
 
+    const quizQuestions = [
+      {question:'金沢で冬の味覚として親しまれる「香箱ガニ」は、ズワイガニのどちら？', choices:['オス','メス','子どものカニ'], answer:1, explanation:'香箱ガニは、石川県で水揚げされるメスのズワイガニです。小ぶりな甲羅の中に内子や外子があります。'},
+      {question:'ブリのように、成長すると呼び名が変わる魚を何という？', choices:['回遊魚','深海魚','出世魚'], answer:2, explanation:'ブリは成長に合わせて呼び名が変わる「出世魚」です。地域によって呼び方にも違いがあります。'},
+      {question:'イカの腕は、長い触腕も合わせて何本？', choices:['8本','10本','12本'], answer:1, explanation:'イカには8本の腕と、獲物を捕らえるための長い触腕が2本あります。合わせて10本です。'},
+      {question:'豊洲市場がある東京都の区はどこ？', choices:['江東区','中央区','港区'], answer:0, explanation:'豊洲市場は東京都江東区にあります。青果、水産物などを扱う大きな卸売市場です。'},
+      {question:'魚が水の流れや振動を感じ取る、体の側面にある器官は？', choices:['側線','背びれ','うろこ'], answer:0, explanation:'魚の体側に見える「側線」は、水流や周囲の振動を感じ取る感覚器官です。'}
+    ];
+
     const splash=document.getElementById('splash');
     const homeView=document.getElementById('homeView');
     const dayView=document.getElementById('dayView');
     const aboutModal=document.getElementById('aboutModal');
+    const quizModal=document.getElementById('quizModal');
+    const quizBody=document.getElementById('quizBody');
     const contactModal=document.getElementById('contactModal');
     const train=document.getElementById('train');
     const procession=document.getElementById('procession');
     const routeLabel=document.getElementById('routeLabel');
     let routeDirection='toyosu';
     let scrollFrame=null;
+    let quizIndex=0;
+    let quizScore=0;
+    let lastModalTrigger=null;
 
     function closeSplash(){ splash.classList.add('is-hidden'); setTimeout(()=>{splash.hidden=true;},750); }
     function updateProcession(){
@@ -399,23 +495,58 @@
       if(updateHash)history.pushState({day:key},'',`#${key}`); window.scrollTo(0,0); requestAnimationFrame(updateProcession);
     }
     function showHome(updateHash=true){ dayView.hidden=true; homeView.hidden=false; setRoute('toyosu'); if(updateHash)history.pushState({},'','#home'); window.scrollTo(0,0); requestAnimationFrame(updateProcession); }
-    function openAbout(){ aboutModal.hidden=false; document.body.style.overflow='hidden'; document.getElementById('modalClose').focus(); }
-    function closeAbout(){ aboutModal.hidden=true; document.body.style.overflow=''; document.getElementById('aboutButton').focus(); }
-    function openContact(){ contactModal.hidden=false; document.body.style.overflow='hidden'; document.getElementById('contactClose').focus(); }
-    function closeContact(){ contactModal.hidden=true; document.body.style.overflow=''; document.getElementById('contactButton').focus(); }
+    function openAbout(trigger){ lastModalTrigger=trigger||document.getElementById('aboutButton'); aboutModal.hidden=false; document.body.style.overflow='hidden'; document.getElementById('modalClose').focus(); }
+    function closeAbout(){ aboutModal.hidden=true; document.body.style.overflow=''; if(lastModalTrigger?.isConnected)lastModalTrigger.focus(); }
+    function openContact(trigger){ lastModalTrigger=trigger||document.getElementById('contactButton'); contactModal.hidden=false; document.body.style.overflow='hidden'; document.getElementById('contactClose').focus(); }
+    function closeContact(){ contactModal.hidden=true; document.body.style.overflow=''; if(lastModalTrigger?.isConnected)lastModalTrigger.focus(); }
+    function renderQuiz(){
+      const item=quizQuestions[quizIndex];
+      if(!item){
+        quizBody.innerHTML=`<div class="quiz-result"><p>5問終了！</p><strong class="quiz-score">${quizScore} / 5</strong><p>${quizScore===5?'全問正解！いしかわの海の幸博士です。':quizScore>=3?'お見事！魚のことをよく知っています。':'もう一度挑戦して、全問正解を目指してみよう。'}</p><button class="quiz-next" id="quizRetry" type="button">もう一度挑戦</button></div>`;
+        document.getElementById('quizRetry').addEventListener('click',()=>{quizIndex=0;quizScore=0;renderQuiz();});
+        return;
+      }
+      quizBody.innerHTML=`<p class="quiz-progress">第 ${quizIndex+1} 問 / 5</p><p class="quiz-question">${item.question}</p><div class="quiz-options">${item.choices.map((choice,index)=>`<button class="quiz-option" type="button" data-answer="${index}">${choice}</button>`).join('')}</div><p class="quiz-feedback" aria-live="polite">答えを選んでください。</p><button class="quiz-next" type="button" hidden>${quizIndex===quizQuestions.length-1?'結果を見る':'次の問題へ'}</button>`;
+      quizBody.querySelectorAll('.quiz-option').forEach(button=>button.addEventListener('click',()=>answerQuiz(Number(button.dataset.answer))));
+    }
+    function answerQuiz(selected){
+      const item=quizQuestions[quizIndex];
+      const buttons=[...quizBody.querySelectorAll('.quiz-option')];
+      buttons.forEach((button,index)=>{button.disabled=true;if(index===item.answer)button.classList.add('correct');else if(index===selected)button.classList.add('wrong');});
+      const correct=selected===item.answer; if(correct)quizScore++;
+      quizBody.querySelector('.quiz-feedback').textContent=`${correct?'正解！':'おしい！'} ${item.explanation}`;
+      const next=quizBody.querySelector('.quiz-next'); next.hidden=false; next.addEventListener('click',()=>{quizIndex++;renderQuiz();}); next.focus();
+    }
+    function openQuiz(trigger){ lastModalTrigger=trigger||document.getElementById('quizFish'); quizIndex=0; quizScore=0; renderQuiz(); quizModal.hidden=false; document.body.style.overflow='hidden'; document.getElementById('quizClose').focus(); }
+    function closeQuiz(){ quizModal.hidden=true; document.body.style.overflow=''; if(lastModalTrigger?.isConnected)lastModalTrigger.focus(); }
+    function nudgeFish(fish){
+      fish.classList.remove('is-peeking'); void fish.offsetWidth; fish.classList.add('is-peeking');
+      clearTimeout(fish.peekTimer); fish.peekTimer=setTimeout(()=>fish.classList.remove('is-peeking'),700);
+    }
+    function showSplashCallout(action){
+      const aboutCallout=document.getElementById('hackathonCallout');
+      const quizCallout=document.getElementById('quizCallout');
+      aboutCallout.hidden=action!=='about';
+      quizCallout.hidden=action!=='quiz';
+    }
 
     document.getElementById('startButton').addEventListener('click',closeSplash);
+    document.querySelectorAll('.peek-fish').forEach(fish=>fish.addEventListener('click',()=>{nudgeFish(fish);showSplashCallout(fish.dataset.splashAction||'');}));
+    document.getElementById('hackathonCallout').addEventListener('click',event=>openAbout(event.currentTarget));
+    document.getElementById('quizCallout').addEventListener('click',event=>openQuiz(event.currentTarget));
     document.querySelectorAll('[data-day]').forEach(card=>card.addEventListener('click',()=>openDay(card.dataset.day)));
     document.getElementById('backButton').addEventListener('click',()=>showHome());
-    document.getElementById('aboutButton').addEventListener('click',openAbout);
+    document.getElementById('aboutButton').addEventListener('click',event=>openAbout(event.currentTarget));
     document.getElementById('modalClose').addEventListener('click',closeAbout);
-    document.getElementById('contactButton').addEventListener('click',openContact);
+    document.getElementById('quizClose').addEventListener('click',closeQuiz);
+    document.getElementById('contactButton').addEventListener('click',event=>openContact(event.currentTarget));
     document.getElementById('contactClose').addEventListener('click',closeContact);
     aboutModal.addEventListener('click',event=>{if(event.target===aboutModal)closeAbout();});
+    quizModal.addEventListener('click',event=>{if(event.target===quizModal)closeQuiz();});
     contactModal.addEventListener('click',event=>{if(event.target===contactModal)closeContact();});
     window.addEventListener('scroll',requestProcessionUpdate,{passive:true});
     window.addEventListener('resize',requestProcessionUpdate);
-    document.addEventListener('keydown',event=>{ if(event.key!=='Escape')return; if(!contactModal.hidden)closeContact(); else if(!aboutModal.hidden)closeAbout(); else if(!splash.hidden)closeSplash(); else if(!dayView.hidden)showHome(); });
+    document.addEventListener('keydown',event=>{ if(event.key!=='Escape')return; if(!quizModal.hidden)closeQuiz(); else if(!contactModal.hidden)closeContact(); else if(!aboutModal.hidden)closeAbout(); else if(!splash.hidden)closeSplash(); else if(!dayView.hidden)showHome(); });
     window.addEventListener('popstate',()=>{ const key=location.hash.slice(1); if(dayData[key])openDay(key,false); else showHome(false); });
     const initialDay=location.hash.slice(1); if(dayData[initialDay]){ closeSplash(); openDay(initialDay,false); } else { updateProcession(); }
   </script>
