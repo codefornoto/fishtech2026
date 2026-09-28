@@ -52,11 +52,9 @@
     }
     .splash.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     .splash-inner { position: relative; z-index: 3; width: min(760px, calc(100% - 40px)); text-align: center; }
-    .splash-title { margin: 0; font: 900 clamp(3.5rem, 13vw, 7.5rem)/.95 var(--sans); letter-spacing: -.06em; }
-    .splash-title span, .main-title span { color: var(--red); }
-    .splash-title small, .main-title small {
-      display: block; margin-top: .5em; font-size: .25em; line-height: 1; letter-spacing: .22em;
-    }
+    .logo-heading { margin: 0; }
+    .brand-logo { display: block; width: min(260px, 52vw); height: auto; margin: 0 auto; object-fit: contain; }
+    .splash-logo { width: min(380px, 64vw); max-height: 60vh; }
     .splash-subtitle { margin: 1.4rem 0 2.6rem; font: 700 clamp(1rem, 3vw, 1.25rem)/1.8 var(--serif); letter-spacing: .14em; }
     .start-button {
       min-width: 220px; padding: .85rem 1.5rem; border: 2px solid var(--ink);
@@ -107,7 +105,7 @@
     .page { position: relative; z-index: 2; min-height: 100vh; }
     .home { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 5rem 0 7rem; }
     .main-header { text-align: center; margin-bottom: 4rem; }
-    .main-title { margin: 0; font: 900 clamp(4rem,13vw,8.5rem)/.9 var(--sans); letter-spacing: -.075em; text-shadow: 5px 5px 0 rgba(181,138,59,.35); }
+    .main-logo { width: min(280px, 58vw); }
     .main-subtitle {
       display: inline-block; margin: 2rem 0 0; padding: .7rem 1.6rem; border-block: 1px solid var(--ink);
       font: 700 clamp(1rem,2.7vw,1.35rem)/1.7 var(--serif); letter-spacing: .12em;
@@ -204,7 +202,9 @@
 
     @media (max-width: 720px) {
       body { padding-bottom: 70px; }
-      .splash-title { font-size: clamp(2.8rem,16vw,4.6rem); }
+      .brand-logo { width: min(220px, 56vw); }
+      .splash-logo { width: min(300px, 70vw); max-height: 55vh; }
+      .main-logo { width: min(240px, 62vw); }
       .splash-subtitle { margin: 1.2rem 0 2rem; font-size: .88rem; }
       .peek-fish { --size: 170px !important; }
       .peek-left { --edge: -122px !important; }
@@ -239,7 +239,7 @@
 <body>
   <div class="splash" id="splash">
     <div class="splash-inner">
-      <h1 class="splash-title">FISH<span>×</span>TECH<small>HACKATHON 2026</small></h1>
+      <h1 class="logo-heading"><img class="brand-logo splash-logo" src="./images/fishtechlogo.png" alt="海の幸×テクノロジー ハッカソン"></h1>
       <p class="splash-subtitle">#いしかわの海の幸をアプデせよ</p>
       <button class="start-button" id="startButton" type="button">画面を開く</button>
     </div>
@@ -271,7 +271,7 @@
   <main class="page" id="homeView">
     <div class="home">
       <header class="main-header">
-        <h1 class="main-title">FISH<span>×</span>TECH<small>HACKATHON 2026</small></h1>
+        <h1 class="logo-heading"><img class="brand-logo main-logo" src="./images/fishtechlogo.png" alt="海の幸×テクノロジー ハッカソン"></h1>
         <p class="main-subtitle">#いしかわの海の幸をアプデせよ</p>
       </header>
       <div class="day-grid">
