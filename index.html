@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="いしかわの海の幸をテーマに、金沢と豊洲で課題発見と課題解決に取り組むFISH×TECH HACKATHON 2026">
+  <meta name="description" content="いしかわの海の幸をテーマに、豊洲市場で課題発見と新しいPR手法の提案に取り組むFISH×TECH HACKATHON 2026">
   <meta name="theme-color" content="#e9e4d8">
   <title>FISH×TECH HACKATHON 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +37,7 @@
       background-attachment: fixed;
       font-family: var(--sans);
       line-height: 1.8;
-      padding-bottom: 102px;
+      padding-bottom: 86px;
     }
     button, a { font: inherit; }
     button { color: inherit; }
@@ -121,7 +121,6 @@
     .day-card { min-height: 330px; padding: 2.1rem; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
     .day-card:hover, .day-card:focus-visible, .information-card:hover, .information-card:focus-visible { transform: translate(3px,3px); box-shadow: 4px 4px 0 var(--ink); outline: none; }
     .day-card::before, .information-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 8px; background: var(--accent); }
-    .day-card.day3 { grid-column: 1/-1; min-height: 270px; }
     .day-number { display: block; margin-top: .6rem; color: var(--accent); font: 800 clamp(2.8rem,6vw,4.5rem)/1 var(--serif); }
     .day-phase { margin: 1.2rem 0 .3rem; font-size: 1.3rem; font-weight: 900; }
     .day-place { margin: 0; color: #4b565c; font-weight: 700; }
@@ -157,17 +156,12 @@
     .section-heading { margin: 5rem 0 2.5rem; text-align: center; font: 800 clamp(1.8rem,4vw,2.7rem)/1.3 var(--serif); }
     .section-heading span { display: inline-block; padding: .35rem 1.5rem; color: white; background: var(--ink); box-shadow: 5px 5px 0 var(--gold); }
     .timetable { position: relative; }
-    .timetable::before { content: ""; position: absolute; top: 0; bottom: 0; left: 26px; width: 2px; background: var(--line); }
-    .program-item { position: relative; display: grid; grid-template-columns: 70px 1fr; gap: 2rem; margin-bottom: 1.5rem; }
-    .program-order { position: relative; z-index: 1; width: 52px; height: 52px; display: grid; place-items: center; border: 2px solid var(--ink); background: var(--day-color); color: white; font-weight: 900; box-shadow: 3px 3px 0 var(--ink); }
+    .timetable::before { content: ""; position: absolute; top: 0; bottom: 0; left: 35px; width: 2px; background: var(--line); }
+    .program-item { position: relative; display: grid; grid-template-columns: 76px 1fr; gap: 1.6rem; margin-bottom: 1.25rem; }
+    .program-order { position: relative; z-index: 1; width: 70px; min-height: 44px; display: grid; place-items: center; padding: .35rem; border: 2px solid var(--ink); background: var(--day-color); color: white; font-size: .88rem; font-weight: 900; box-shadow: 3px 3px 0 var(--ink); }
     .program-content { padding: 1.35rem 1.5rem; border: 2px solid var(--ink); background: rgba(248,245,237,.96); box-shadow: 4px 4px 0 var(--ink); }
     .program-content h3 { margin: 0 0 .4rem; font-size: 1.15rem; }
     .program-content p { margin: 0; }
-    .points-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.3rem; }
-    .point-card { padding: 1.5rem; border: 2px solid var(--ink); background: rgba(248,245,237,.94); box-shadow: 4px 4px 0 var(--ink); }
-    .point-card h3 { margin: 0 0 .6rem; color: var(--day-color); font: 800 1.2rem/1.4 var(--serif); }
-    .point-card p { margin: 0; }
-    .day-note { margin-top: 2.5rem; padding: 1.25rem 1.5rem; border-left: 6px solid var(--day-color); background: rgba(248,245,237,.85); }
 
     .modal { position: fixed; inset: 0; z-index: 650; display: grid; place-items: center; padding: 24px; background: rgba(24,36,43,.75); backdrop-filter: blur(5px); }
     .modal-panel { width: min(760px,100%); max-height: min(86vh,820px); overflow-y: auto; padding: clamp(1.5rem,5vw,3rem); border: 3px solid var(--ink); background: var(--paper-light); box-shadow: 8px 8px 0 var(--gold); }
@@ -192,12 +186,11 @@
     .quiz-result { text-align: center; }
     .quiz-score { display: block; margin: 1rem 0; color: var(--red); font: 900 clamp(3rem,10vw,5.5rem)/1 var(--serif); }
 
-    .procession-area { position: fixed; inset: auto 0 0; z-index: 300; height: 92px; overflow: hidden; border-top: 1px solid var(--line); background: rgba(233,228,216,.94); pointer-events: none; }
-    .place-labels { position: absolute; inset: 8px 16px auto; display: flex; justify-content: space-between; font: 700 .72rem/1 var(--serif); }
-    .route-label { position: absolute; left: 50%; top: 7px; transform: translateX(-50%); font-size: .7rem; font-weight: 700; white-space: nowrap; }
-    .road { position: absolute; left: 0; right: 0; bottom: 10px; height: 1px; background: repeating-linear-gradient(90deg,var(--ink) 0 8px,transparent 8px 14px); opacity: .35; }
+    .procession-area { position: fixed; inset: auto 0 0; z-index: 300; height: 76px; overflow: hidden; border-top: 1px solid var(--line); background: rgba(233,228,216,.94); pointer-events: none; }
+    .place-labels { position: absolute; z-index: 3; inset: 5px 16px auto; display: flex; justify-content: space-between; font: 700 .72rem/1 var(--serif); }
+    .road { position: absolute; left: 0; right: 0; bottom: 4px; height: 1px; background: repeating-linear-gradient(90deg,var(--ink) 0 8px,transparent 8px 14px); opacity: .35; }
     .train, .procession {
-      position: absolute; left: 0; bottom: 12px; width: 440px; height: 65px; max-width: none;
+      position: absolute; left: 0; bottom: 4px; width: 440px; height: 65px; max-width: none;
       object-fit: contain; object-position: bottom; will-change: left, transform;
     }
     .train {
@@ -210,7 +203,7 @@
     }
 
     @media (max-width: 720px) {
-      body { padding-bottom: 84px; }
+      body { padding-bottom: 70px; }
       .splash-title { font-size: clamp(2.8rem,16vw,4.6rem); }
       .splash-subtitle { margin: 1.2rem 0 2rem; font-size: .88rem; }
       .peek-fish { --size: 170px !important; }
@@ -223,19 +216,18 @@
       .fish-callout { padding: .5rem .7rem; font-size: .68rem; }
       .home { padding-top: 3.5rem; }
       .day-grid { grid-template-columns: 1fr; }
-      .day-card.day3, .information-card { grid-column: auto; }
+      .information-card { grid-column: auto; }
       .link-grid { grid-template-columns: 1fr; }
       .day-card { min-height: 0; }
       .information-inner { align-items: flex-start; flex-direction: column; }
-      .points-grid { grid-template-columns: 1fr; }
-      .program-item { grid-template-columns: 52px 1fr; gap: .9rem; }
-      .program-order { width: 42px; height: 42px; }
+      .program-item { grid-template-columns: 62px 1fr; gap: .8rem; }
+      .program-order { width: 58px; min-height: 40px; font-size: .78rem; }
+      .timetable::before { left: 29px; }
       .day-heading { padding: 2rem 1.3rem; }
-      .procession-area { height: 76px; }
-      .train, .procession { height: 50px; bottom: 10px; }
+      .procession-area { height: 62px; }
+      .train, .procession { height: 50px; bottom: 4px; }
       .train { width: 370px; }
       .procession { width: 330px; }
-      .route-label { top: 25px; font-size: .62rem; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
@@ -284,22 +276,17 @@
       </header>
       <div class="day-grid">
         <button class="day-card" type="button" data-day="day1" style="--accent:var(--red)">
-          <span class="day-number">Day 1</span><h2 class="day-phase">課題発見編</h2><p class="day-place">金沢会場</p>
-          <p class="day-summary">金沢の水産業や魚食文化について、現場で活動する人の話を聞きながら、地域が抱える課題を整理します。</p>
+          <span class="day-number">Day 1</span><h2 class="day-phase">課題発見編</h2><p class="day-place">豊洲市場講堂</p>
+          <p class="day-summary">東京魚市場卸売協同組合、石川県水産課、大学研究者からの水産業に関するインプットを中心に、石川県の海の幸の課題を発見する</p>
           <div class="card-bottom"><span class="date-label">開催日：調整中</span><span class="detail-label">詳細を見る ＞</span></div>
         </button>
         <button class="day-card" type="button" data-day="day2" style="--accent:var(--indigo)">
-          <span class="day-number">Day 2</span><h2 class="day-phase">課題発見編</h2><p class="day-place">豊洲会場</p>
-          <p class="day-summary">豊洲市場や首都圏の流通・消費の視点から、金沢で見つけた課題を見直し、解決に取り組むテーマを決めます。</p>
-          <div class="card-bottom"><span class="date-label">開催日：調整中</span><span class="detail-label">詳細を見る ＞</span></div>
-        </button>
-        <button class="day-card day3" type="button" data-day="day3" style="--accent:var(--green)">
-          <span class="day-number">Day 3</span><h2 class="day-phase">課題解決編</h2><p class="day-place">豊洲会場</p>
-          <p class="day-summary">2日間で整理した課題をもとに、チームで解決案を考えます。Webアプリやデータ活用、生成AIなどを使い、実際に試せる形までつくります。</p>
+          <span class="day-number">Day 2</span><h2 class="day-phase">課題発見編</h2><p class="day-place">豊洲市場講堂</p>
+          <p class="day-summary">ピッチとプロトタイプの体験会を行い、審査と投票で優秀賞を決める</p>
           <div class="card-bottom"><span class="date-label">開催日：調整中</span><span class="detail-label">詳細を見る ＞</span></div>
         </button>
         <button class="information-card" id="aboutButton" type="button" style="--accent:var(--gold)">
-          <div class="information-inner"><div><h2>FISH×TECH HACKATHON 2026とは？</h2><p>スクールの目的、3日間の進め方、参加対象について紹介します。</p></div><strong>詳しく見る</strong></div>
+          <div class="information-inner"><div><h2>FISH × TECH HACKATHON 2026とは？</h2><p>ハッカソンに期待すること・開催の背景</p></div><strong>詳しく見る</strong></div>
         </button>
         <div class="link-grid">
           <button class="link-card" id="contactButton" type="button" style="--card-color:var(--green)">
@@ -323,22 +310,22 @@
         <div class="day-heading-number" id="dayNumber"></div><h1 id="dayTitle"></h1><p class="day-heading-meta" id="dayMeta"></p><p class="day-heading-copy" id="dayCopy"></p>
       </section>
       <section><h2 class="section-heading"><span>当日の流れ</span></h2><div class="timetable" id="timetable"></div></section>
-      <section><h2 class="section-heading"><span>この日に行うこと</span></h2><div class="points-grid" id="pointsGrid"></div><p class="day-note">開催時間、詳しい会場、登壇者、参加方法などは、決まり次第このページに追加します。</p></section>
     </div>
   </main>
 
   <div class="modal" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" hidden>
     <div class="modal-panel">
       <button class="modal-close" id="modalClose" type="button" aria-label="閉じる">×</button>
-      <h2 id="aboutTitle">HACKATHONってなに？</h2>
-      <p><strong>ハッカソン</strong>は、参加者がチームをつくり、決められたテーマについてアイデアを出し合い、短い期間で試作品や解決案を形にするイベントです。「ハック（工夫してつくる）」と「マラソン」を組み合わせた言葉です。</p>
-      <p>FISH×TECH HACKATHON 2026は、水産業や魚食文化をテーマに、金沢と豊洲の2地域で現場を知り、課題を整理し、解決案を形にするスクールです。</p>
-      <p>漁業、水産加工、流通、市場、飲食、観光など、魚を取り巻く仕事にはさまざまな人が関わっています。一方で、担い手不足、情報共有、販路、未利用魚の活用、魚食文化の継承など、地域や立場によって異なる課題があります。</p>
-      <p>3日間のプログラムでは、まず金沢と豊洲の両方から現場を見ます。そこで見つけた課題をチームで整理し、最終日に解決案を試作品として発表します。</p>
-      <h3>例えば、こんなテーマ</h3>
-      <ul class="example-list"><li>漁獲や入荷の情報を、分かりやすく共有する仕組み</li><li>未利用魚や地域の魚を知ってもらうための発信</li><li>飲食店や消費者と産地をつなぐWebサービス</li><li>魚食文化や調理方法を次の世代へ伝える仕組み</li><li>観光と市場、地域の飲食店をつなぐデジタルマップ</li></ul>
-      <h3>参加対象</h3>
-      <p>水産業や地域の課題に関心がある人であれば、技術経験の有無を問わず参加できます。エンジニア、デザイナー、学生、地域事業者など、それぞれの得意分野を持ち寄りながら進めます。</p>
+      <h2 id="aboutTitle">FISH × TECH HACKATHON 2026とは？</h2>
+      <p>FISH TECH HACKATHON 2026は、<br>石川県の海の幸の新しいPR手法を考えるハッカソンです。</p>
+      <p>魚は、おいしいだけでいいんだろうか。</p>
+      <p>石川県には、おいしい魚がある。<br>でも、魚の魅力は、おいしさだけじゃない。<br>どこで獲れたのか。<br>誰が届けているのか。どんな季節を泳いできたのか。</p>
+      <p>そんな話を知ると、同じ魚でも少し違って見える。</p>
+      <p>このハッカソンでは、<br>研究者や豊洲市場の仲卸、石川県の水産関係者と一緒に、魚が食卓に届くまでの旅をたどります。</p>
+      <p>そして考えます。</p>
+      <p>どうすれば、もっと魚に会いたくなるだろう。<br>どうすれば、もっと市場がおもしろくなるだろう。<br>答えはまだありません。<br>だから、みんなで考える価値があります。</p>
+      <p>アプリでもいい。<br>データでもいい。<br>生成ＡＩでもいい。<br>魚を主役にした、新しい伝え方を作ってみませんか。</p>
+      <p>石川県の魚について、<br>豊洲市場に、ちょっと未来の話を持ち寄るハッカソンです。</p>
     </div>
   </div>
 
@@ -367,7 +354,7 @@
   </div>
 
   <div class="procession-area" aria-hidden="true">
-    <div class="place-labels"><span>金沢</span><span>豊洲</span></div><div class="route-label" id="routeLabel">金沢から豊洲へ</div><div class="road"></div>
+    <div class="place-labels"><span>金沢</span><span>豊洲</span></div><div class="road"></div>
     <img class="train" id="train" src="./images/kagayaki-train.png" alt="">
     <img class="procession" id="procession" src="./images/daimyo-procession.png" alt="">
   </div>
@@ -375,57 +362,37 @@
   <script>
     const dayData = {
       day1: {
-        number:'Day 1', title:'課題発見編', meta:'金沢会場｜開催日・時間は調整中', color:'var(--red)', direction:'kanazawa',
-        copy:'金沢の水産業や魚食文化について、現場で活動する人の話を聞きながら課題を探します。最初から解決策を決めるのではなく、誰が、どの場面で、何に困っているのかを具体的に整理します。',
+        number:'Day 1', title:'課題発見編', meta:'豊洲市場講堂｜開催日：調整中', color:'var(--red)', direction:'toyosu',
+        copy:'東京魚市場卸売協同組合、石川県水産課、大学研究者からの水産業に関するインプットを中心に、石川県の海の幸の課題を発見する',
         programs:[
-          ['開会・オリエンテーション','スクール全体の目的と3日間の進め方を共有します。'],
-          ['金沢の水産業を知る','漁業、加工、流通、飲食など、魚が届くまでの流れと地域の特徴を学びます。'],
-          ['現場からの課題共有','地域で活動する人から、日々感じている困りごとや変化について話を聞きます。'],
-          ['グループで意見交換','気になった話や疑問を持ち寄り、さらに確認したい点を整理します。'],
-          ['課題を言葉にする','誰の、どのような課題なのかを整理し、次の豊洲会場へ持っていく問いをつくります。'],
-          ['発表・共有','各グループが見つけた課題を発表し、参加者全体で共有します。']
-        ],
-        points:[
-          ['現場の話を聞く','資料だけでは分からない、仕事の流れや日々の困りごとを直接聞きます。'],
-          ['課題を絞り過ぎない','最初の段階では複数の可能性を残し、豊洲の視点と比べられるようにします。'],
-          ['背景まで整理する','表面の困りごとだけでなく、なぜ起きているのかまで考えます。'],
-          ['豊洲へ持っていく','Day 2で確認したいことを決め、金沢で見つけた課題を豊洲へつなぎます。']
+          ['9:00','受付開始',''],
+          ['10:00','開会・概要説明',''],
+          ['10:10','講演①','東京魚市場卸売協同組合による市場と流通の現状と課題についてのインプット'],
+          ['10:40','講演②','石川県水産課による水産業の現行と行政の取組についてのインプット'],
+          ['11:20','ディスカッション①','専門家へのヒアリングやチームでのデータ分析を行い、より深く理解する'],
+          ['12:00','お昼休憩',''],
+          ['13:00','再開',''],
+          ['13:05','基調講演','東京大学阪井准教授によるインプット'],
+          ['14:00','ディスカッション②','専門家へのヒアリングやチームでのデータ分析を行い、より深く理解する'],
+          ['14:40','事務連絡',''],
+          ['14:50','クロージング','']
         ]
       },
       day2: {
-        number:'Day 2', title:'課題発見編', meta:'豊洲会場｜開催日・時間は調整中', color:'var(--indigo)', direction:'toyosu',
-        copy:'金沢で見つけた課題を、豊洲市場や首都圏の流通・消費の視点から見直します。産地と市場の違いを比べながら、本当に取り組むべき課題を決めます。',
+        number:'Day 2', title:'課題発見編', meta:'豊洲市場講堂｜開催日：調整中', color:'var(--indigo)', direction:'toyosu',
+        copy:'ピッチとプロトタイプの体験会を行い、審査と投票で優秀賞を決める',
         programs:[
-          ['開会・前回の振り返り','Day 1で出た課題と、豊洲で確認したいポイントを共有します。'],
-          ['豊洲市場について知る','市場の役割や流通の仕組み、産地から消費地までの動きを学びます。'],
-          ['流通・販売側の話を聞く','魚を仕入れ、届け、販売する立場から見た課題やニーズを聞きます。'],
-          ['金沢との違いを整理','産地と市場、それぞれの情報や認識の違いをグループで整理します。'],
-          ['取り組む課題を決める','解決する相手と場面を具体化し、チームで取り組むテーマを決定します。'],
-          ['Day 3に向けた準備','必要なデータ、情報、役割分担を整理し、試作品づくりの準備を進めます。']
-        ],
-        points:[
-          ['産地と市場を比べる','同じ魚でも、金沢と豊洲では見え方や評価がどのように違うかを確認します。'],
-          ['情報の流れを見る','魚だけでなく、産地情報、価格、品質、食べ方などがどう伝わるかを見ます。'],
-          ['利用者を具体化する','漁業者、仲卸、飲食店、消費者など、誰のための解決策かを決めます。'],
-          ['つくる前に確かめる','思い込みで進めず、現場の声と照らし合わせて課題を絞ります。']
-        ]
-      },
-      day3: {
-        number:'Day 3', title:'課題解決編', meta:'豊洲会場｜開催日・時間は調整中', color:'var(--green)', direction:'toyosu',
-        copy:'金沢と豊洲で整理した課題をもとに、解決案を実際に試せる形までつくります。完成度を競うだけでなく、現場で使えるか、次につながるかを重視します。',
-        programs:[
-          ['課題とチームの確認','取り組む課題、対象となる人、目指す状態をあらためて確認します。'],
-          ['解決案の検討','必要な機能や情報を整理し、その日に形にする範囲を決めます。'],
-          ['試作品づくり','Webアプリ、データ可視化、生成AIなど、課題に合った方法で制作します。'],
-          ['中間確認','途中の成果を見せ合い、分かりにくい点や不足している点を修正します。'],
-          ['成果発表','課題の背景、解決案、試作品、今後の進め方をチームごとに発表します。'],
-          ['講評・今後について','現場の関係者から意見をもらい、スクール後に続ける内容を整理します。']
-        ],
-        points:[
-          ['小さくつくる','すべてを完成させるのではなく、課題の解決に必要な部分を優先します。'],
-          ['実際に触れる形にする','説明資料だけでなく、画面や動作を確認できる試作品を目指します。'],
-          ['現場の意見をもらう','つくった人だけで判断せず、使う人や関係者の意見を確認します。'],
-          ['次の一歩を決める','スクール後に誰が何を進めるか、実証や改善につながる形で終えます。']
+          ['9:00','受付開始',''],
+          ['9:30','登壇者リハーサル',''],
+          ['10:00','開会・概要説明',''],
+          ['10:00','Pitch!セッション','スライド発表'],
+          ['11:30','お昼休憩',''],
+          ['12:30','再開',''],
+          ['12:40','Touch!セッション','デモ体験会'],
+          ['14:40','投票',''],
+          ['14:50','Judge!セッション','審査結果発表'],
+          ['15:20','クロージング',''],
+          ['15:30','写真撮影・解散','']
         ]
       }
     };
@@ -447,7 +414,6 @@
     const contactModal=document.getElementById('contactModal');
     const train=document.getElementById('train');
     const procession=document.getElementById('procession');
-    const routeLabel=document.getElementById('routeLabel');
     let routeDirection='toyosu';
     let scrollFrame=null;
     let quizIndex=0;
@@ -478,7 +444,6 @@
     }
     function setRoute(direction){
       routeDirection=direction;
-      routeLabel.textContent=direction==='kanazawa'?'豊洲から金沢へ':'金沢から豊洲へ';
       requestProcessionUpdate();
     }
     function openDay(key,updateHash=true){
@@ -489,8 +454,7 @@
       document.getElementById('dayTitle').textContent=data.title;
       document.getElementById('dayMeta').textContent=data.meta;
       document.getElementById('dayCopy').textContent=data.copy;
-      document.getElementById('timetable').innerHTML=data.programs.map((item,index)=>`<article class="program-item"><div class="program-order">${index+1}</div><div class="program-content"><h3>${item[0]}</h3><p>${item[1]}</p></div></article>`).join('');
-      document.getElementById('pointsGrid').innerHTML=data.points.map(item=>`<article class="point-card"><h3>${item[0]}</h3><p>${item[1]}</p></article>`).join('');
+      document.getElementById('timetable').innerHTML=data.programs.map(item=>`<article class="program-item"><div class="program-order">${item[0]}</div><div class="program-content"><h3>${item[1]}</h3>${item[2]?`<p>${item[2]}</p>`:''}</div></article>`).join('');
       homeView.hidden=true; dayView.hidden=false; setRoute(data.direction);
       if(updateHash)history.pushState({day:key},'',`#${key}`); window.scrollTo(0,0); requestAnimationFrame(updateProcession);
     }
