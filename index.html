@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<head>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2LJ16QNK7X"></script>
 <script>
@@ -135,12 +136,12 @@
     .card-bottom { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-end; margin-top: 2rem; }
     .date-label { display: inline-block; padding: .25rem .65rem; color: white; background: var(--ink); font-size: .85rem; font-weight: 700; }
     .detail-label { border-bottom: 2px solid var(--accent); font-weight: 700; }
-    .information-card { grid-column: 1/-1; margin-top: .5rem; padding: 2rem; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+    .information-card { grid-column: 1/-1; margin-top: .5rem; padding: 2rem; color: inherit; text-decoration: none; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
     .information-inner { display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
     .information-card h2 { margin: .5rem 0; font: 800 clamp(1.5rem,4vw,2.2rem)/1.4 var(--serif); }
     .information-card p { margin: 0; }
     .information-card strong { white-space: nowrap; border-bottom: 2px solid var(--accent); }
-    .link-grid { grid-column: 1/-1; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.4rem; margin-top: .4rem; }
+    .link-grid { grid-column: 1/-1; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.4rem; margin-top: .4rem; }
     .link-card {
       min-height: 150px; display: flex; flex-direction: column; justify-content: space-between;
       padding: 1.35rem; border: 3px solid var(--ink); background: var(--card-color);
@@ -297,6 +298,9 @@
         <button class="information-card" id="aboutButton" type="button" style="--accent:var(--gold)">
           <div class="information-inner"><div><h2>FISH × TECH HACKATHON 2026とは？</h2><p>ハッカソンに期待すること・開催の背景</p></div><strong>詳しく見る</strong></div>
         </button>
+        <a class="information-card" href="https://techplay.jp/event/1000976" target="_blank" rel="noopener noreferrer" style="--accent:var(--red)">
+          <div class="information-inner"><div><h2>申し込みはこちら</h2><p>TECH PLAYからお申し込みください</p></div><strong>申し込む ↗</strong></div>
+        </a>
         <div class="link-grid">
           <button class="link-card" id="contactButton" type="button" style="--card-color:var(--green)">
             <div><h2>お問い合わせ</h2><p>運営事務局へのご質問はこちら</p></div><strong>連絡先を見る</strong>
